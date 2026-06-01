@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox spacing="12" xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.filemanager.controller.FileManagerController">
+
+    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+
+    <!-- Левая панель: дерево файлов -->
+    <VBox spacing="8" HBox.hgrow="ALWAYS">
+        <Label text="Файловая система" style="-fx-font-size: 14; -fx-font-weight: bold;"/>
+        <TreeView fx:id="treeView" VBox.vgrow="ALWAYS" prefWidth="400"
+                  style="-fx-font-size: 13;"/>
+        <Label fx:id="labelTotalSize" text="Общий размер: 0 B"
+               style="-fx-font-weight: bold; -fx-text-fill: #2e7d32;"/>
+    </VBox>
+
+    <!-- Правая панель: управление -->
+    <VBox spacing="12" prefWidth="280">
+
+        <!-- Форма добавления -->
+        <TitledPane text="Добавить элемент" expanded="true" collapsible="false">
+            <VBox spacing="8">
+                <padding><Insets top="8" right="8" bottom="8" left="8"/></padding>
+
+                <!-- Тип -->
+                <HBox spacing="16" alignment="CENTER_LEFT">
+                    <Label fx:id="labelType" text="Тип:"/>
+                    <fx:define>
+                        <ToggleGroup fx:id="typeGroup"/>
+                    </fx:define>
+                    <RadioButton fx:id="radioFile" text="Файл"
+                                 toggleGroup="$typeGroup" selected="true"/>
+                    <RadioButton fx:id="radioFolder" text="Папка"
+                                 toggleGroup="$typeGroup"/>
+                </HBox>
+
+                <!-- Имя -->
+                <HBox spacing="8" alignment="CENTER_LEFT">
+                    <Label text="Имя:" prefWidth="60"/>
+                    <TextField fx:id="fieldName" HBox.hgrow="ALWAYS"
+                               promptText="Введите имя"/>
+                </HBox>
+
+                <!-- Размер (только для файла) -->
+                <HBox fx:id="rowSize" spacing="8" alignment="CENTER_LEFT">
+                    <Label text="Размер:" prefWidth="60"/>
+                    <TextField fx:id="fieldSize" HBox.hgrow="ALWAYS"
+                               promptText="Байт (напр. 1024)"/>
+                </HBox>
+
+                <Button fx:id="btnAdd" text="Добавить" onAction="#onAdd"
+                        maxWidth="Infinity"
+                        style="-fx-base: #4CAF50; -fx-text-fill: white;"/>
+            </VBox>
+        </TitledPane>
+
+        <!-- Удаление -->
+        <Button fx:id="btnDelete" text="Удалить выбранный" onAction="#onDelete"
+                maxWidth="Infinity"
+                style="-fx-base: #f44336; -fx-text-fill: white;"/>
+
+        <!-- Лог -->
+        <VBox spacing="4" VBox.vgrow="ALWAYS">
+            <Label text="Лог операций" style="-fx-font-weight: bold;"/>
+            <TextArea fx:id="logArea" editable="false" VBox.vgrow="ALWAYS"
+                      style="-fx-font-family: monospace; -fx-font-size: 11;"/>
+        </VBox>
+
+    </VBox>
+</HBox>
