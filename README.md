@@ -59,139 +59,25 @@ src/main/java/org/example/filemanager/
 
 ### Диаграмма классов (Composite)
 
-```plantuml
-@startuml
-skinparam classAttributeIconSize 0
-
-interface FileSystemItem {
-    + getName(): String
-    + getSize(): long
-    + getDisplayName(): String
-    + isFolder(): boolean
-}
-
-class FileItem {
-    - name: String
-    - size: long
-    + getName(): String
-    + getSize(): long
-    + getDisplayName(): String
-    + isFolder(): boolean
-    + {static} formatSize(bytes: long): String
-}
-
-class FolderItem {
-    - name: String
-    - children: List<FileSystemItem>
-    + add(item: FileSystemItem): void
-    + remove(name: String): void
-    + getChildren(): List<FileSystemItem>
-    + getName(): String
-    + getSize(): long
-    + getDisplayName(): String
-    + isFolder(): boolean
-}
-
-class FileSystemException {
-    + FileSystemException(message: String)
-}
-
-class FileManagerController {
-    - treeView: TreeView
-    - bundle: ResourceBundle
-    + initialize(): void
-    + onAdd(): void
-    + onDelete(): void
-}
-
-class FileManagerApp {
-    + start(stage: Stage): void
-    + main(args: String[]): void
-}
-
-FileItem      ..|> FileSystemItem
-FolderItem    ..|> FileSystemItem
-FolderItem    o-->  FileSystemItem : children
-FolderItem    ..>   FileSystemException : throws
-FileItem      ..>   FileSystemException : throws
-FileManagerController --> FolderItem
-FileManagerController --> FileItem
-FileManagerApp --> FileManagerController
-@enduml
-```
+![Диаграмма классов](docs/классов.png)
 
 ---
 
 ### Use Case
 
-```plantuml
-@startuml
-left to right direction
-skinparam actorStyle awesome
-
-actor "Пользователь" as user
-
-rectangle "File Manager" {
-    usecase "Просмотр дерева"      as UC1
-    usecase "Добавить файл"        as UC2
-    usecase "Добавить папку"       as UC3
-    usecase "Удалить элемент"      as UC4
-    usecase "Просмотр размера"     as UC5
-}
-
-user --> UC1
-user --> UC2
-user --> UC3
-user --> UC4
-UC1 .> UC5 : <<include>>
-UC2 .> UC5 : <<include>>
-@enduml
-```
+![Use Case](docs/usecase.png)
 
 ---
 
 ### Контекстная диаграмма
 
-```plantuml
-@startuml
-actor "Пользователь" as user
-
-rectangle "File Manager\n[JavaFX Desktop]" as system
-
-file "strings.properties" as res
-
-user   --> system : добавить / удалить элемент
-system --> user   : дерево файлов, размеры
-res    --> system : тексты интерфейса
-@enduml
-```
+![Контекстная диаграмма](docs/контекст.png)
 
 ---
 
 ### Структура паттерна Компоновщик
 
-```plantuml
-@startuml
-package "Паттерн Компоновщик" {
-    interface Component {
-        + getSize(): long
-        + getName(): String
-    }
-    class Leaf {
-        Файл (FileItem)
-    }
-    class Composite {
-        Папка (FolderItem)
-        + add(Component)
-        + remove(String)
-        + getChildren()
-    }
-    Composite o--> "0..*" Component : children
-    Leaf      ..|> Component
-    Composite ..|> Component
-}
-@enduml
-```
+![Структура](docs/классов.png)
 
 ---
 
@@ -231,7 +117,7 @@ mvn test
 
 ## Критерии оценки
 
-- [x] Индивидуальный дизайн (вариант 4 — файловый менеджер)
+- [x] Индивидуальный дизайн 
 - [x] Обработка исключений в `FolderItem` и `FileItem`
 - [x] Использование ресурсного файла `strings.properties`
 - [x] Unit-тесты (JUnit 5)
